@@ -5,6 +5,18 @@ find_program(INKSCAPE inkscape REQUIRED DOC "Path to inkscape")
 
 option(WITH_LIVEKIT_VARIANT "Render Livekit variant of the theme" OFF)
 
+message(STATUS "Check for working Inkscape: ${INKSCAPE}")
+execute_process(COMMAND "${INKSCAPE}" --version TIMEOUT 3 RESULT_VARIABLE INKSCAPE_RESULT OUTPUT_VARIABLE INKSCAPE_VERSION_OUTPUT)
+if (NOT INKSCAPE_RESULT EQUAL 0)
+  message(FATAL_ERROR "Inkscape is not working properly.")
+endif()
+string(REGEX MATCH "Inkscape ([0-9\.]+)" INKSCAPE_VERSION "${INKSCAPE_VERSION_OUTPUT}")
+set(INKSCAPE_VERSION "${CMAKE_MATCH_1}")
+if (INKSCAPE_VERSION VERSION_LESS "1.1")
+  message(FATAL_ERROR "Inkscape is too old! Needs at least 1.1, found ${INKSCAPE_VERSION}.")
+endif()
+message(STATUS "Found Inkscape ${INKSCAPE_VERSION}")
+
 file(GLOB SOURCE_FILES "${CMAKE_SOURCE_DIR}/sequences/*/*.svg")
 
 include(GNUInstallDirs)
