@@ -26,7 +26,7 @@ foreach (F ${SOURCE_FILES})
   list(APPEND ARTIFACTS "${OUTPUT_FILE}")
   add_custom_command(
     OUTPUT "${OUTPUT_FILE}"
-    COMMAND "${INKSCAPE}" "${F}" -w 640 -D -o "${OUTPUT_FILE}"
+    COMMAND "${INKSCAPE}" "${F}" -w 480 -D -o "${OUTPUT_FILE}"
     DEPENDS "${F}" COMMENT "Rendering ${FILESLUG} ..."
   )
   if (WITH_LIVEKIT_VARIANT)
